@@ -7,11 +7,13 @@ networks:
 # This is how you persist data between container restarts
 volumes:
   mongo_data:
-    driver: local
+    driver: zfs
+    name: graylog/mongodb
   log_data:
     driver: local
   graylog_data:
-    driver: local
+    driver: zfs
+    name: graylog/data
 
 services:
   # Graylog stores configuration in MongoDB
