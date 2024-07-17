@@ -13,8 +13,8 @@ volumes:
     driver: local
     driver_opts:
       type: cifs
-      device: "${CIFS_NAS_ADDRESS}/graylog"
-      o: "addr=${CIFS_NAS_ADDRESS},username=${CIFS_USERNAME},password=${CIFS_PASSWORD},file_mode=0777,dir_mode=0777"
+      device: "${GRAYLOG_CIFS_HOST}/graylog"
+      o: "addr=${GRAYLOG_CIFS_HOST},username=${GRAYLOG_CIFS_USERNAME},password=${GRAYLOG_CIFS_PASSWORD},file_mode=0777,dir_mode=0777"
   graylog_data:
     driver: zfs
     name: graylog/data
@@ -34,6 +34,8 @@ services:
   opensearch:
     image: opensearchproject/opensearch:2
     container_name: opensearch
+    env_file:
+      - opensearch.env
     environment:
       - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
       - "bootstrap.memory_lock=true"
@@ -41,7 +43,6 @@ services:
       - "action.auto_create_index=false"
       - "plugins.security.ssl.http.enabled=false"
       - "plugins.security.disabled=true"
-      - "OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_INITIAL_ADMIN_PASSWORD}"
     volumes:
       - "log_data:/usr/share/opensearch/data"
     ulimits:
@@ -60,26 +61,8 @@ services:
   graylog:
     image: graylog/graylog:6.0
     container_name: graylog
-    environment:
-      GRAYLOG_PASSWORD_SECRET: "${GRAYLOG_PASSWORD_SECRET}"
-      GRAYLOG_ROOT_PASSWORD_SHA2: "${GRAYLOG_ROOT_PASSWORD_SHA2}"
-      GRAYLOG_HTTP_EXTERNAL_URI: "${GRAYLOG_HTTP_EXTERNAL_URI}"
-      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
-      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
-      GRAYLOG_TIMEZONE: "Europe/Berlin"
-      TZ: "Europe/Berlin"
-      GRAYLOG_TRANSPORT_EMAIL_PROTOCOL: "smtp"
-      GRAYLOG_TRANSPORT_EMAIL_WEB_INTERFACE_URL: "${GRAYLOG_TRANSPORT_EMAIL_WEB_INTERFACE_URL}"
-      GRAYLOG_TRANSPORT_EMAIL_HOSTNAME: "${GRAYLOG_TRANSPORT_EMAIL_HOSTNAME}"
-      GRAYLOG_TRANSPORT_EMAIL_ENABLED: "true"
-      GRAYLOG_TRANSPORT_EMAIL_PORT: "587"
-      GRAYLOG_TRANSPORT_EMAIL_USE_AUTH: "true"
-      GRAYLOG_TRANSPORT_EMAIL_AUTH_USERNAME: "${GRAYLOG_TRANSPORT_EMAIL_AUTH_USERNAME}"
-      GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD: "${GRAYLOG_TRANSPORT_EMAIL_AUTH_PASSWORD}"
-      GRAYLOG_TRANSPORT_EMAIL_USE_TLS: "true"
-      GRAYLOG_TRANSPORT_EMAIL_USE_SSL: "false"
-      GRAYLOG_TRANSPORT_FROM_EMAIL: "${GRAYLOG_TRANSPORT_FROM_EMAIL}"
-      GRAYLOG_TRANSPORT_SUBJECT_PREFIX: "[graylog]"
+    env_file:
+      - graylog.env
     entrypoint: /usr/bin/tini -- wait-for-it opensearch:9200 -- /docker-entrypoint.sh
     volumes:
       - "${PWD}/config/graylog/graylog.conf:/usr/share/graylog/config/graylog.conf" #FIXME "PWD" might not work in all environments
