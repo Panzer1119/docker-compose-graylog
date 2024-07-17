@@ -11,6 +11,11 @@ volumes:
     name: graylog/mongodb
   log_data:
     driver: local
+    driver_opts:
+      type: cifs
+      device: "//nas.local/graylog" #TODO Use 1Password to inject this?
+      # The addr option is required if you specify a hostname instead of an IP. This lets Docker perform the hostname lookup.
+      o: "addr=nas.local,username=xxxxx,password=xxxxx,file_mode=0777,dir_mode=0777" #TODO Use 1Password to inject username and password (and maybe addr)
   graylog_data:
     driver: zfs
     name: graylog/data
