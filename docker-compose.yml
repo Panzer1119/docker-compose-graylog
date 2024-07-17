@@ -8,16 +8,17 @@ networks:
 volumes:
   mongo_data:
     driver: zfs
-    name: graylog/mongodb
+    name: graylog/mongo_data
   log_data:
     driver: local
+    name: graylog/log_data
     driver_opts:
       type: cifs
-      device: "${GRAYLOG_CIFS_HOST}/graylog"
-      o: "addr=${GRAYLOG_CIFS_HOST},username=${GRAYLOG_CIFS_USERNAME},password=${GRAYLOG_CIFS_PASSWORD},file_mode=0777,dir_mode=0777"
+      device: "${GRAYLOG_CIFS_HOST}/${GRAYLOG_CIFS_SHARE}"
+      o: "addr=${GRAYLOG_CIFS_HOST},username=${GRAYLOG_CIFS_USERNAME},password=${GRAYLOG_CIFS_PASSWORD},vers=3.0" #TODO Do i need to set uid and gid?
   graylog_data:
     driver: zfs
-    name: graylog/data
+    name: graylog/graylog_data
 
 services:
   # Graylog stores configuration in MongoDB
