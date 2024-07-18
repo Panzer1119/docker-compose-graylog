@@ -12,6 +12,7 @@ volumes:
   log_data:
     name: graylog-log_data
     external: true
+    # Because this is a cifs volume, and it needs credentials, it is created outside of this file
   graylog_data:
     name: graylog/graylog_data
     driver: zfs
