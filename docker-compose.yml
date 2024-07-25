@@ -9,8 +9,10 @@ volumes:
     driver: zfs
   log_data:
     name: graylog-log_data
-    external: true
     # Because this is a cifs volume, and it needs credentials, it is created outside of this file
+    external: true
+    labels:
+      - "de.panzer1119.docker.volume.cifs.share=Graylog" #TODO Create a script that parses the docker-compose.yml files and creates the cifs volumes based on the labels
   graylog_data:
     name: graylog/graylog_data
     driver: zfs
