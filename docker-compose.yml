@@ -11,11 +11,6 @@ volumes:
     name: graylog-log_data
     # Because this is a cifs volume, and it needs credentials, it is created outside of this file
     external: true
-    labels:
-      - "de.panzer1119.docker.volume.cifs.host=op://Docker/Graylog/CIFS/Host"
-      - "de.panzer1119.docker.volume.cifs.share=op://Docker/Graylog/CIFS/Share"
-      - "de.panzer1119.docker.volume.cifs.username=op://Docker/Graylog/CIFS/Username"
-      - "de.panzer1119.docker.volume.cifs.password=op://Docker/Graylog/CIFS/Password"
   graylog_data:
     name: graylog/graylog_data
     driver: zfs
@@ -46,6 +41,11 @@ services:
       - "plugins.security.disabled=true"
     volumes:
       - "log_data:/usr/share/opensearch/data"
+    labels:
+      - "de.panzer1119.docker.volume.graylog-log_data.cifs.host=op://Docker/Graylog/CIFS/Host"
+      - "de.panzer1119.docker.volume.graylog-log_data.cifs.share=op://Docker/Graylog/CIFS/Share"
+      - "de.panzer1119.docker.volume.graylog-log_data.cifs.username=op://Docker/Graylog/CIFS/Username"
+      - "de.panzer1119.docker.volume.graylog-log_data.cifs.password=op://Docker/Graylog/CIFS/Password"
     ulimits:
       memlock:
         soft: -1
