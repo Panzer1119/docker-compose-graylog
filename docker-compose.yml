@@ -5,14 +5,14 @@ networks:
 # This is how you persist data between container restarts
 volumes:
   mongo_data:
-    name: graylog/mongo_data
+    name: data/graylog/mongo
     driver: zfs
   log_data:
     name: graylog-log_data
     # Because this is a cifs volume, and it needs credentials, it is created outside of this file
     external: true
   graylog_data:
-    name: graylog/graylog_data
+    name: data/graylog/graylog
     driver: zfs
 
 services:
