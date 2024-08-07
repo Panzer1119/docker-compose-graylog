@@ -7,10 +7,9 @@ volumes:
   mongo_data:
     name: data/graylog/mongo
     driver: zfs
-  log_data:
-    name: graylog-log_data
-    # Because this is a cifs volume, and it needs credentials, it is created outside of this file
-    external: true
+  opensearch_data:
+    name: data/graylog/opensearch
+    driver: zfs
   graylog_data:
     name: data/graylog/graylog
     driver: zfs
@@ -40,12 +39,7 @@ services:
       - "plugins.security.ssl.http.enabled=false"
       - "plugins.security.disabled=true"
     volumes:
-      - "log_data:/usr/share/opensearch/data"
-    labels:
-      - "de.panzer1119.docker.volume.graylog-log_data.cifs.host=op://Docker/Graylog/CIFS/Host"
-      - "de.panzer1119.docker.volume.graylog-log_data.cifs.share=op://Docker/Graylog/CIFS/Share"
-      - "de.panzer1119.docker.volume.graylog-log_data.cifs.username=op://Docker/Graylog/CIFS/Username"
-      - "de.panzer1119.docker.volume.graylog-log_data.cifs.password=op://Docker/Graylog/CIFS/Password"
+      - "opensearch_data:/usr/share/opensearch/data"
     ulimits:
       memlock:
         soft: -1
