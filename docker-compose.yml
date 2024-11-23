@@ -5,14 +5,23 @@ networks:
 # This is how you persist data between container restarts
 volumes:
   mongo_data:
-    name: data/graylog/mongo
-    driver: zfs
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/docker/data/graylog/mongo"
   opensearch_data:
-    name: data/graylog/opensearch
-    driver: zfs
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/docker/data/graylog/opensearch"
   graylog_data:
-    name: data/graylog/graylog
-    driver: zfs
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "/docker/data/graylog/graylog"
 
 services:
   # Graylog stores configuration in MongoDB
