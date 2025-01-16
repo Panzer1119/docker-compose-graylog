@@ -26,7 +26,7 @@ volumes:
 services:
   # Graylog stores configuration in MongoDB
   mongo:
-    image: mongo:6.0.19-jammy@sha256:6bc557d4c804c3e6a244f5bde44172533bfdd28b397723ec39a8b6c09dac7cf6
+    image: mongo:6.0.20-jammy@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
     container_name: mongodb
     volumes:
       - "mongo_data:/data/db"
