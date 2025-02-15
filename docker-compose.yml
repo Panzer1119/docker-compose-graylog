@@ -36,7 +36,7 @@ services:
 
   # The logs themselves are stored in Opensearch
   opensearch:
-    image: opensearchproject/opensearch:2@sha256:d5134deb8b4477d2f1886cb736b487f55649599a2b9d83a3e6c0fd0540c05df1
+    image: opensearchproject/opensearch:2@sha256:1f8b88245a6af61e7aa500afe0e87d43401e4b33140bb47230a919428ce3f7cb
     container_name: opensearch
     env_file:
       - opensearch.env
