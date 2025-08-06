@@ -63,7 +63,7 @@ services:
     restart: always
 
   graylog:
-    image: graylog/graylog:6.1@sha256:b541e67b72197c6d8d791092ff4c80d58958d61fe8c8ffc91667102d4c785674
+    image: graylog/graylog:6.3@sha256:4af068d22a2c461be4e0fb6d9a143d562397fa824b1fc1e4bf16aa6ba8cb4afa
     container_name: graylog
     env_file:
       - graylog.env
